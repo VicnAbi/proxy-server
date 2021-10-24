@@ -6,7 +6,7 @@ dotenv.config()
 const host = '0.0.0.0'
 const port = 9000
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV !== 'develop'
 
 // proxy
 const proxy = corsAnywhere
