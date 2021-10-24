@@ -12,7 +12,7 @@ const isProd = process.env.NODE_ENV !== 'develop'
 const proxy = corsAnywhere
   .createServer({
     originWhitelist: isProd ? [
-      'https://vicnabi.github.io/Nabidex'
+      'https://vicnabi.github.io'
     ] : [],
     requireHeader: isProd ? ['Origin'] : [],
     removeHeaders: [],
