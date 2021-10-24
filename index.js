@@ -6,13 +6,15 @@ dotenv.config()
 const host = '0.0.0.0'
 const port = 9000
 
+const isProd = process.env.NODE_ENV === 'production'
+
 // proxy
 const proxy = corsAnywhere
   .createServer({
-    originWhitelist: process.env.NODE_ENV === 'production' ? [
+    originWhitelist: isProd ? [
       'https://vicnabi.github.io/Nabidex'
     ] : [],
-    requireHeader: ['Origin'],
+    requireHeader: isProd ? ['Origin'] : [],
     removeHeaders: [],
   })
   .listen(port + 1, host, () => {
@@ -30,6 +32,11 @@ app.get('/twitch/*', function(req, res) {
 app.get('/github/*', function(req, res) {
   req.url = req.url.replace('/github', '/https://api.github.com')
   req.headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`
+  proxy.emit('request', req, res)
+})
+app.get('/holodex/*', function(req, res) {
+  req.url = req.url.replace('/holodex', '/https://holodex.net')
+  req.headers['X-APIKEY'] = `${process.env.HOLODEX_TOKEN}`
   proxy.emit('request', req, res)
 })
 app.listen(port, () => {
