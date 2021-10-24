@@ -23,6 +23,9 @@ const proxy = corsAnywhere
 
 // express
 const app = express()
+app.get('/', function(req, res) {
+  res.sendStatus(200);
+})
 app.get('/twitch/*', function(req, res) {
   req.url = req.url.replace('/twitch', '/https://api.twitch.tv/helix')
   req.headers['Authorization'] = `Bearer ${process.env.TWITCH_TOKEN}`
